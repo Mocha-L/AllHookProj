@@ -200,7 +200,7 @@ void CAllHookInterfaceDlg::OnBnClickedButtonHookmouse()
 
 void CAllHookInterfaceDlg::OnBnClickedButtonUnhookmouse()
 {
-	// TODO: Add your control notification handler code herewoshi我是个好人
+	// TODO: Add your control notification handler code here
 	m_HookMouse.ShowWindow(SW_SHOW);
 	m_UnHookMouse.ShowWindow(SW_HIDE);
 	KeyboardMouse_Hook::SetHook(UNHOOK|SET_MOUSE,m_hWnd);
@@ -216,7 +216,6 @@ LRESULT CAllHookInterfaceDlg::OnMyMessage2(WPARAM wParam,LPARAM lParam)
 	TCHAR szKeyName[20] = {0};
 	CString strEditText = L"";
 	GetKeyNameText(lParam,szKeyName,10);
-	wstring strWord = szKeyName;
 	m_EditOutput.GetWindowText(strEditText);
 	
 	if (0 == wcscmp(szKeyName,L"Space"))
