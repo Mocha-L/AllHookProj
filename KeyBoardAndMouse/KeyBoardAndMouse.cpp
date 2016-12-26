@@ -7,11 +7,11 @@
 HHOOK g_hMouse = NULL;
 HHOOK g_hKeyBoard = NULL;
 
-#pragma data_seg("MyHook_seg")
+//#pragma data_seg("MyHook_seg")
 HWND g_hWnd = NULL;
-#pragma data_seg()
-
-#pragma comment(linker,"/section:MyHook_seg,RWS")
+//#pragma data_seg()
+//
+//#pragma comment(linker,"/section:MyHook_seg,RWS")
 
 LRESULT CALLBACK MouseProc(int iCode,WPARAM wParam,LPARAM lParam)
 {
@@ -21,16 +21,13 @@ LRESULT CALLBACK MouseProc(int iCode,WPARAM wParam,LPARAM lParam)
 LRESULT CALLBACK KeyBordProc(int iCode,WPARAM wParam,LPARAM lParam)
 {
 	OutputDebugStringW(stringformat(L"iCode = %X,wParam = %X,lParam = %X",iCode,wParam,lParam).c_str());
-	if(iCode >= HC_ACTION && ((lParam>>31) == 0))
+	if(iCode == HC_ACTION && ((lParam>>31) == 0))
 	{
 		if (VK_F2 == wParam)
 		{
 			::SendMessage(g_hWnd,WM_BTN_UNHOOKMOUSE,0,0);
 		}
-		else
-		{
-			::SendMessage(g_hWnd,WM_SENDWORDCODE,wParam,lParam);
-		}
+		::SendMessage(g_hWnd,WM_SENDWORDCODE,wParam,lParam);
 	}
 
 	return CallNextHookEx(g_hKeyBoard,iCode,wParam,lParam);

@@ -44,8 +44,9 @@ public:
 	afx_msg void OnBnClickedButtonUnhookkeyboard();
 	afx_msg void OnBnClickedButtonHookmouse();
 	afx_msg void OnBnClickedButtonUnhookmouse();
-	afx_msg LRESULT OnMyMessage(WPARAM wParam,LPARAM lParam);
-	afx_msg LRESULT OnMyMessage2(WPARAM wParam,LPARAM lParam);
+	afx_msg LRESULT OnMyMessage_UnHookMouse(WPARAM wParam,LPARAM lParam);
+	afx_msg LRESULT OnMyMessage_HandleInput(WPARAM wParam,LPARAM lParam);
 	CButton m_UnHookMouse;
 	CEdit m_EditOutput;
+	afx_msg void OnBnClickedButtonClear();
 };

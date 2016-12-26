@@ -75,8 +75,9 @@ BEGIN_MESSAGE_MAP(CAllHookInterfaceDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_UNHOOKKEYBOARD, &CAllHookInterfaceDlg::OnBnClickedButtonUnhookkeyboard)
 	ON_BN_CLICKED(IDC_BUTTON_HOOKMOUSE, &CAllHookInterfaceDlg::OnBnClickedButtonHookmouse)
 	ON_BN_CLICKED(IDC_BUTTON_UNHOOKMOUSE, &CAllHookInterfaceDlg::OnBnClickedButtonUnhookmouse)
-	ON_MESSAGE(WM_BTN_UNHOOKMOUSE,CAllHookInterfaceDlg::OnMyMessage)
-	ON_MESSAGE(WM_SENDWORDCODE,CAllHookInterfaceDlg::OnMyMessage2)
+	ON_MESSAGE(WM_BTN_UNHOOKMOUSE,CAllHookInterfaceDlg::OnMyMessage_UnHookMouse)
+	ON_MESSAGE(WM_SENDWORDCODE,CAllHookInterfaceDlg::OnMyMessage_HandleInput)
+	ON_BN_CLICKED(IDC_BUTTON_CLEAR, &CAllHookInterfaceDlg::OnBnClickedButtonClear)
 END_MESSAGE_MAP()
 
 
@@ -206,12 +207,12 @@ void CAllHookInterfaceDlg::OnBnClickedButtonUnhookmouse()
 	KeyboardMouse_Hook::SetHook(UNHOOK|SET_MOUSE,m_hWnd);
 }
 
-LRESULT CAllHookInterfaceDlg::OnMyMessage(WPARAM wParam,LPARAM lParam)
+LRESULT CAllHookInterfaceDlg::OnMyMessage_UnHookMouse(WPARAM wParam,LPARAM lParam)
 {
 	OnBnClickedButtonUnhookmouse();
 	return 0;
 }
-LRESULT CAllHookInterfaceDlg::OnMyMessage2(WPARAM wParam,LPARAM lParam)
+LRESULT CAllHookInterfaceDlg::OnMyMessage_HandleInput(WPARAM wParam,LPARAM lParam)
 {
 	TCHAR szKeyName[20] = {0};
 	CString strEditText = L"";
@@ -241,3 +242,9 @@ LRESULT CAllHookInterfaceDlg::OnMyMessage2(WPARAM wParam,LPARAM lParam)
 }   
 
 
+
+void CAllHookInterfaceDlg::OnBnClickedButtonClear()
+{
+	// TODO: Add your control notification handler code here
+	m_EditOutput.SetWindowText(L"");
+}

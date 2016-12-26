@@ -20,12 +20,8 @@ namespace KeyboardMouse_Hook
 			return false;
 		}
 
-		//GET_FUNCTINADDR(s_hKeyBoardMouse, SetHook);
-		SetHook = (pfSetHook)GetProcAddress(s_hKeyBoardMouse,"SetHook");
-		if (NULL == SetHook)
-		{
-			AfxMessageBox(stringformat(L"Load %s Error!",L"SetHook").c_str());
-		}
+		GET_FUNCTINADDR(s_hKeyBoardMouse, SetHook);
+
 		return true;
 	}
 	bool ReleaseKeyBoardMouse()
