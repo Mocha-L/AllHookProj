@@ -5,20 +5,36 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllHookInterface", "AllHook
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeyBoardAndMouse", "KeyBoardAndMouse\KeyBoardAndMouse.vcproj", "{613DEBF1-35CA-4B39-BA3A-4B5CFE5CCD28}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "APIHook", "APIHook\APIHook.vcproj", "{61F70BBD-7A64-49CB-9FD6-9F251ADF62D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{91544952-80E2-4785-A79F-0535D3271175}.Debug|Win32.ActiveCfg = Debug|Win32
 		{91544952-80E2-4785-A79F-0535D3271175}.Debug|Win32.Build.0 = Debug|Win32
+		{91544952-80E2-4785-A79F-0535D3271175}.Debug|x64.ActiveCfg = Debug|x64
+		{91544952-80E2-4785-A79F-0535D3271175}.Debug|x64.Build.0 = Debug|x64
 		{91544952-80E2-4785-A79F-0535D3271175}.Release|Win32.ActiveCfg = Release|Win32
 		{91544952-80E2-4785-A79F-0535D3271175}.Release|Win32.Build.0 = Release|Win32
+		{91544952-80E2-4785-A79F-0535D3271175}.Release|x64.ActiveCfg = Release|x64
+		{91544952-80E2-4785-A79F-0535D3271175}.Release|x64.Build.0 = Release|x64
 		{613DEBF1-35CA-4B39-BA3A-4B5CFE5CCD28}.Debug|Win32.ActiveCfg = Debug|Win32
 		{613DEBF1-35CA-4B39-BA3A-4B5CFE5CCD28}.Debug|Win32.Build.0 = Debug|Win32
+		{613DEBF1-35CA-4B39-BA3A-4B5CFE5CCD28}.Debug|x64.ActiveCfg = Debug|Win32
 		{613DEBF1-35CA-4B39-BA3A-4B5CFE5CCD28}.Release|Win32.ActiveCfg = Release|Win32
 		{613DEBF1-35CA-4B39-BA3A-4B5CFE5CCD28}.Release|Win32.Build.0 = Release|Win32
+		{613DEBF1-35CA-4B39-BA3A-4B5CFE5CCD28}.Release|x64.ActiveCfg = Release|x64
+		{61F70BBD-7A64-49CB-9FD6-9F251ADF62D0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{61F70BBD-7A64-49CB-9FD6-9F251ADF62D0}.Debug|Win32.Build.0 = Debug|Win32
+		{61F70BBD-7A64-49CB-9FD6-9F251ADF62D0}.Debug|x64.ActiveCfg = Debug|Win32
+		{61F70BBD-7A64-49CB-9FD6-9F251ADF62D0}.Release|Win32.ActiveCfg = Release|Win32
+		{61F70BBD-7A64-49CB-9FD6-9F251ADF62D0}.Release|Win32.Build.0 = Release|Win32
+		{61F70BBD-7A64-49CB-9FD6-9F251ADF62D0}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

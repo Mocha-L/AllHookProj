@@ -49,4 +49,10 @@ public:
 	CButton m_UnHookMouse;
 	CEdit m_EditOutput;
 	afx_msg void OnBnClickedButtonClear();
+	afx_msg void OnClose();
+
+protected:
+	virtual void OnOK();
+public:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

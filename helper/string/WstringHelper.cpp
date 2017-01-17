@@ -24,3 +24,20 @@ std::wstring  stringformat(const wchar_t* fmt,   ...)
 	}
 	return   s;   
 }
+
+std::wstring Path_GetCurrent(HMODULE hModule)
+{
+	std::wstring strPath=L"";
+	wchar_t cPath[MAX_PATH];
+	wchar_t *pLast = NULL;
+	memset(cPath,0,sizeof(cPath));
+	GetModuleFileName(hModule,cPath,MAX_PATH);
+	pLast=wcsrchr(cPath,L'\\');
+	if (NULL!=pLast)
+	{
+		*pLast=0;
+	}
+	strPath=cPath;
+	strPath+=L"\\";
+	return strPath;
+}

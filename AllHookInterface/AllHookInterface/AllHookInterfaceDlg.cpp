@@ -7,6 +7,7 @@
 #include "AllHookInterface.h"
 #include "AllHookInterfaceDlg.h"
 #include "../LoadModels/KeyBoardMouse/LoadKeyBoardMouse.h"
+#include "../LoadModels/InjectDlls/InjectDlls.h"
 #include <string>
 using namespace std;
 
@@ -78,6 +79,7 @@ BEGIN_MESSAGE_MAP(CAllHookInterfaceDlg, CDialog)
 	ON_MESSAGE(WM_BTN_UNHOOKMOUSE,CAllHookInterfaceDlg::OnMyMessage_UnHookMouse)
 	ON_MESSAGE(WM_SENDWORDCODE,CAllHookInterfaceDlg::OnMyMessage_HandleInput)
 	ON_BN_CLICKED(IDC_BUTTON_CLEAR, &CAllHookInterfaceDlg::OnBnClickedButtonClear)
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -113,6 +115,8 @@ BOOL CAllHookInterfaceDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	EnablePrivilege();
+
 	m_HookKeyBrd.ShowWindow(SW_SHOW);
 	m_UNHookKeyBoard.ShowWindow(SW_HIDE);
 	m_HookMouse.ShowWindow(SW_SHOW);
@@ -120,7 +124,12 @@ BOOL CAllHookInterfaceDlg::OnInitDialog()
 
 	if(!KeyboardMouse_Hook::LoadKeyBoardMouse())
 	{
-		AfxMessageBox(L"Load dll fail!");
+		AfxMessageBox(L"Load KeyBoardMouse Dll fail!");
+	}
+	wstring strDllPath = stringformat(L"%s%s",Path_GetCurrent().c_str(),L"APIHook.dll");
+	if (DllInject(L"MFC_test.exe",strDllPath.c_str()) != 0)
+	{
+		AfxMessageBox(L"explorer.exe Load APIHook Dll fail!");
 	}
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -247,4 +256,36 @@ void CAllHookInterfaceDlg::OnBnClickedButtonClear()
 {
 	// TODO: Add your control notification handler code here
 	m_EditOutput.SetWindowText(L"");
+}
+
+void CAllHookInterfaceDlg::OnClose()
+{
+	// TODO: Add your message handler code here and/or call default
+	if(!KeyboardMouse_Hook::ReleaseKeyBoardMouse())
+	{
+		AfxMessageBox(L"Release KeyBoardMouse Dll fail!");
+	}
+	wstring strDllPath = stringformat(L"%s%s",Path_GetCurrent().c_str(),L"APIHook.dll");
+	if (DllFree(L"MFC_test.exe",L"APIHook.dll") != 0)
+	{
+		AfxMessageBox(L"explorer.exe Free APIHook Dll fail!");
+	}
+
+	CDialog::OnClose();
+}
+
+void CAllHookInterfaceDlg::OnOK()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	//do nothing
+}
+
+BOOL CAllHookInterfaceDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
+	{
+		return TRUE;
+	}
+	return CDialog::PreTranslateMessage(pMsg);
 }
