@@ -65,6 +65,7 @@ void CAllHookInterfaceDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_HOOKMOUSE, m_HookMouse);
 	DDX_Control(pDX, IDC_BUTTON_UNHOOKMOUSE, m_UnHookMouse);
 	DDX_Control(pDX, IDC_EDIT_OUTPUT_TEXT, m_EditOutput);
+	DDX_Control(pDX, IDC_EDIT_PROCNAME, m_editProcName);
 }
 
 BEGIN_MESSAGE_MAP(CAllHookInterfaceDlg, CDialog)
@@ -80,6 +81,7 @@ BEGIN_MESSAGE_MAP(CAllHookInterfaceDlg, CDialog)
 	ON_MESSAGE(WM_SENDWORDCODE,CAllHookInterfaceDlg::OnMyMessage_HandleInput)
 	ON_BN_CLICKED(IDC_BUTTON_CLEAR, &CAllHookInterfaceDlg::OnBnClickedButtonClear)
 	ON_WM_CLOSE()
+	ON_BN_CLICKED(IDC_BUTTON_APIHOOK, &CAllHookInterfaceDlg::OnBnClickedButtonApihook)
 END_MESSAGE_MAP()
 
 
@@ -121,16 +123,13 @@ BOOL CAllHookInterfaceDlg::OnInitDialog()
 	m_UNHookKeyBoard.ShowWindow(SW_HIDE);
 	m_HookMouse.ShowWindow(SW_SHOW);
 	m_UnHookMouse.ShowWindow(SW_HIDE);
+	m_editProcName.SetWindowText(L"explorer.exe");
 
 	if(!KeyboardMouse_Hook::LoadKeyBoardMouse())
 	{
 		AfxMessageBox(L"Load KeyBoardMouse Dll fail!");
 	}
-	wstring strDllPath = stringformat(L"%s%s",Path_GetCurrent().c_str(),L"APIHook.dll");
-	if (DllInject(L"MFC_test.exe",strDllPath.c_str()) != 0)
-	{
-		AfxMessageBox(L"explorer.exe Load APIHook Dll fail!");
-	}
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -190,6 +189,11 @@ void CAllHookInterfaceDlg::OnBnClickedButtonHookkeyboard()
 	m_HookKeyBrd.ShowWindow(SW_HIDE);
 	m_UNHookKeyBoard.ShowWindow(SW_SHOW);
 	KeyboardMouse_Hook::SetHook(HOOK|SET_KEYBOARD,m_hWnd);
+	CString strEditText = L"";
+	m_EditOutput.GetWindowText(strEditText);
+	strEditText += "\r\n【键盘输入已被Hook，未拦截输入仅将输入内容发回并记录显示】\r\n";
+	m_EditOutput.SetWindowText(strEditText);
+	m_EditOutput.SendMessage(WM_VSCROLL,SB_BOTTOM,0);
 }
 
 void CAllHookInterfaceDlg::OnBnClickedButtonUnhookkeyboard()
@@ -198,6 +202,11 @@ void CAllHookInterfaceDlg::OnBnClickedButtonUnhookkeyboard()
 	m_HookKeyBrd.ShowWindow(SW_SHOW);
 	m_UNHookKeyBoard.ShowWindow(SW_HIDE);
 	KeyboardMouse_Hook::SetHook(UNHOOK|SET_KEYBOARD,m_hWnd);
+	CString strEditText = L"";
+	m_EditOutput.GetWindowText(strEditText);
+	strEditText += "\r\n【键盘Hook已释放】\r\n";
+	m_EditOutput.SetWindowText(strEditText);
+	m_EditOutput.SendMessage(WM_VSCROLL,SB_BOTTOM,0);
 }
 
 void CAllHookInterfaceDlg::OnBnClickedButtonHookmouse()
@@ -206,6 +215,11 @@ void CAllHookInterfaceDlg::OnBnClickedButtonHookmouse()
 	m_HookMouse.ShowWindow(SW_HIDE);
 	m_UnHookMouse.ShowWindow(SW_SHOW);
 	KeyboardMouse_Hook::SetHook(HOOK|SET_MOUSE,m_hWnd);
+	CString strEditText = L"";
+	m_EditOutput.GetWindowText(strEditText);
+	strEditText += "\r\n【鼠标点击事件已被Hook，可通过键盘选择点击UnHook按钮释放】\r\n";
+	m_EditOutput.SetWindowText(strEditText);
+	m_EditOutput.SendMessage(WM_VSCROLL,SB_BOTTOM,0);
 }
 
 void CAllHookInterfaceDlg::OnBnClickedButtonUnhookmouse()
@@ -214,6 +228,11 @@ void CAllHookInterfaceDlg::OnBnClickedButtonUnhookmouse()
 	m_HookMouse.ShowWindow(SW_SHOW);
 	m_UnHookMouse.ShowWindow(SW_HIDE);
 	KeyboardMouse_Hook::SetHook(UNHOOK|SET_MOUSE,m_hWnd);
+	CString strEditText = L"";
+	m_EditOutput.GetWindowText(strEditText);
+	strEditText += "\r\n【鼠标点击事件Hook已释放】\r\n";
+	m_EditOutput.SetWindowText(strEditText);
+	m_EditOutput.SendMessage(WM_VSCROLL,SB_BOTTOM,0);
 }
 
 LRESULT CAllHookInterfaceDlg::OnMyMessage_UnHookMouse(WPARAM wParam,LPARAM lParam)
@@ -247,6 +266,7 @@ LRESULT CAllHookInterfaceDlg::OnMyMessage_HandleInput(WPARAM wParam,LPARAM lPara
 		strEditText += szKeyName;
 	}
 	m_EditOutput.SetWindowText(strEditText);
+	m_EditOutput.SendMessage(WM_VSCROLL,SB_BOTTOM,0);
 	return 0;
 }   
 
@@ -265,11 +285,12 @@ void CAllHookInterfaceDlg::OnClose()
 	{
 		AfxMessageBox(L"Release KeyBoardMouse Dll fail!");
 	}
-	wstring strDllPath = stringformat(L"%s%s",Path_GetCurrent().c_str(),L"APIHook.dll");
-	if (DllFree(L"MFC_test.exe",L"APIHook.dll") != 0)
-	{
-		AfxMessageBox(L"explorer.exe Free APIHook Dll fail!");
-	}
+	//暂时取消apihook在对话框关闭时free的操作
+	//wstring strDllPath = stringformat(L"%s%s",Path_GetCurrent().c_str(),L"APIHook.dll");
+	//if (DllFree(L"explorer.exe",L"APIHook.dll") != 0)
+	//{
+	//	AfxMessageBox(L"explorer.exe Free APIHook Dll fail!");
+	//}
 
 	CDialog::OnClose();
 }
@@ -288,4 +309,32 @@ BOOL CAllHookInterfaceDlg::PreTranslateMessage(MSG* pMsg)
 		return TRUE;
 	}
 	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CAllHookInterfaceDlg::OnBnClickedButtonApihook()
+{
+	// TODO: Add your control notification handler code here
+	CString strProcName = L"";
+	m_editProcName.GetWindowText(strProcName);
+	if (strProcName.GetLength() <= 0)
+	{
+		AfxMessageBox(L"Please enter Process Name!");
+		return;
+	}
+
+	wstring strDllPath = stringformat(L"%s%s",Path_GetCurrent().c_str(),L"APIHook.dll");
+	wstring wstrProcName = strProcName.GetString();
+	if (DllInject(wstrProcName.c_str(),strDllPath.c_str()) != 0)
+	{
+		AfxMessageBox(stringformat(L"%s Load APIHook Dll fail!",wstrProcName.c_str()).c_str());
+		return;
+	}
+
+	CString strEditText = L"";
+	m_EditOutput.GetWindowText(strEditText);
+	strEditText += "\r\n【Hook指定进程完成，现支持新建文件、新建文件夹、messagebox相关Hook，其他api函数照例加入APIHook.dll即可】\r\n";
+	m_EditOutput.SetWindowText(strEditText);
+	m_EditOutput.SendMessage(WM_VSCROLL,SB_BOTTOM,0);
+
+	return;
 }

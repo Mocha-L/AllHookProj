@@ -55,4 +55,6 @@ protected:
 	virtual void OnOK();
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnBnClickedButtonApihook();
+	CEdit m_editProcName;
 };

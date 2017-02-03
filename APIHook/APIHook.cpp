@@ -110,6 +110,7 @@ BOOL UnInstallAPIHook()
 
 	myDetourDetach(&(PVOID&)orgCreateFileW, myCreateFileW);
 	myDetourDetach(&(PVOID&)orgCreateDirectoryW, myCreateDirectoryW);
+	myDetourDetach(&(PVOID&)orgMessageBoxW, myMessageBoxW);
 
 	myDetourTransactionCommit();
 	myDetourEnd();

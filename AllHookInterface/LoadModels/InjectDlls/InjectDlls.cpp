@@ -155,7 +155,7 @@ _DllInject_End:
 	   CloseHandle(hProcessHandle);  
    }
 
-    return 0;  
+    return iRet;  
 }  
   
 /***************************** 
